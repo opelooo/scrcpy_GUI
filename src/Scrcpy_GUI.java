@@ -8,10 +8,17 @@ import java.util.*;
 
 /**
  *
- * @author Administrator
+ * @author opelooo
  */
 public class Scrcpy_GUI {
 
+    /**
+     * Method to list devices connected to the computer,
+     * this method execute {@code adb devices} command using ProcessBuilder.
+     * 
+     * @return {@code List<String> output}
+     * @author opelooo
+     */
     public static List<String> adb_devices() {
         List<String> output = new ArrayList<>();
         try {
@@ -37,7 +44,14 @@ public class Scrcpy_GUI {
 
         return output;
     }
-
+    
+    /**
+     * Method to run scrcpy,
+     * this method execute {@code scrcpy -s device_code -m 1024 -b 2M} command using ProcessBuilder.
+     * 
+     * @param device_code device ID from adb devices list
+     * @author opelooo
+     */
     public static void run_scrcpy(String device_code) {
         new Thread(() -> {
             try {
@@ -54,14 +68,23 @@ public class Scrcpy_GUI {
             }
         }).start();  // Start the new thread
     }
-
+    
+    /**
+     * Method to get device info product manufaturer,
+     * this method execute 
+     * {@code adb -s device_code shell getprop ro.product.manufacturer} command using ProcessBuilder.
+     * 
+     * @param device_code device ID from adb devices list
+     * @return {@code String output} 
+     * @author opelooo
+     */
     public static String adb_device_info(String device_code) {
         String output = new String();
         try {
             // Create a process to execute 'adb devices'
-            ProcessBuilder pb 
+            ProcessBuilder pb
                     = new ProcessBuilder(
-                            "adb", "-s", device_code, "shell", 
+                            "adb", "-s", device_code, "shell",
                             "getprop", "ro.product.manufacturer"
                     );
             Process process = pb.start();
@@ -73,7 +96,7 @@ public class Scrcpy_GUI {
                 if (line.trim().isEmpty()) {
                     continue;
                 }
-                output=line.trim();  // Add device to output list
+                output = line.trim();  // Add device to output list
             }
 
             // Wait for the process to complete
@@ -84,4 +107,9 @@ public class Scrcpy_GUI {
 
         return output;
     }
+
+    public static void adb_connect_tcpip() {
+
+    }
+
 }
