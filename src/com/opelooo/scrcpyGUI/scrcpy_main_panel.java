@@ -1,7 +1,7 @@
+package com.opelooo.scrcpyGUI;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,18 +10,15 @@ import javax.swing.DefaultListModel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.UnsupportedLookAndFeelException;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 /**
  *
- * @author Administrator
+ * @author opelooo
  */
 public class scrcpy_main_panel extends javax.swing.JFrame {
 
-    private DefaultListModel<String> listModel_JD;  // Declare the list model
+    private final DefaultListModel<String> listModel_JD;  // Declare the list model
     private JPopupMenu popupMenu;  // The popup menu
 
     /**
@@ -29,6 +26,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
      */
     public scrcpy_main_panel() {
         initComponents();
+
         listModel_JD = new DefaultListModel<>();  // Initialize the list model
         list_devices.setModel(listModel_JD);     // Set the list model to JList
 
@@ -67,10 +65,10 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
         recordAudioButton = new javax.swing.JToggleButton();
         audioFormats = new javax.swing.JComboBox<>();
         toggleStayAwake = new javax.swing.JToggleButton();
-        programLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minimal GUI Scrcpy");
+        setIconImages(null);
         setResizable(false);
 
         list_devices.setModel(new javax.swing.AbstractListModel<String>() {
@@ -135,7 +133,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
                 .addComponent(tcpipButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -225,30 +223,20 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(recordAudioButton)
                     .addComponent(audioFormats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Scrcpy Option", jPanel3);
-
-        programLabel.setText("Minimal GUI Scrcpy");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane2)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(311, 311, 311)
-                .addComponent(programLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(programLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2))
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -279,7 +267,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
     private void runCustomButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCustomButtonButtonActionPerformed
         // TODO add your handling code here:
         String selectedDevice = list_devices.getSelectedValue();
-        Scrcpy_GUI.run_scrcpy(
+        GUI_functions.run_scrcpy(
                 selectedDevice, maxSize.getText(), videoBitRate.getText(),
                 toggleVideoButton.isSelected(), toggleScreenButton.isSelected(),
                 toggleStayAwake.isSelected()
@@ -289,54 +277,35 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
     private void tcpipButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tcpipButtonButtonActionPerformed
         // TODO add your handling code here:
         String selectedDevice = list_devices.getSelectedValue();
+        showDeviceIP(selectedDevice);
     }//GEN-LAST:event_tcpipButtonButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        /* Set the FlatLaf Dark look and feel */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(scrcpy_main_panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(scrcpy_main_panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(scrcpy_main_panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            // Set the FlatLaf Dark theme look and feel
+            javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(scrcpy_main_panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         // Get the screen size as a java dimension
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                javax.swing.JFrame mainFrame = new scrcpy_main_panel();
-
-                // Calculate the frame location
-                int x = (screenSize.width - mainFrame.getWidth()) / 2;
-                int y = (screenSize.height - mainFrame.getHeight()) / 2;
-
-                // Set the location of the frame
-                mainFrame.setLocation(x, y);
-
-                mainFrame.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            javax.swing.JFrame mainFrame = new scrcpy_main_panel();
+            // Calculate the frame location
+            int x1 = (screenSize.width - mainFrame.getWidth()) / 2;
+            int y1 = (screenSize.height - mainFrame.getHeight()) / 2;
+            // Set the location of the frame
+            mainFrame.setLocation(x1, y1);
+            mainFrame.setVisible(true);
         });
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc=" Variables declaration - do not modify ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> audioFormats;
@@ -350,7 +319,6 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JList<String> list_devices;
     private javax.swing.JTextField maxSize;
-    private javax.swing.JLabel programLabel;
     private javax.swing.JToggleButton recordAudioButton;
     private javax.swing.JToggleButton recordVideoButton;
     private javax.swing.JButton refreshButton;
@@ -364,14 +332,14 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> videoFormats;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
-    
+
     // Method to update the JList with the adb devices
     private void updateDeviceList() {
         // Clear the current list
         listModel_JD.clear();
 
         // Fetch the list of devices
-        List<String> devices = Scrcpy_GUI.adb_devices();
+        List<String> devices = GUI_functions.adb_devices();
 
         // Add the devices to the JList model
         for (String device : devices) {
@@ -434,7 +402,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
         // You can customize this with any device-specific details
         JOptionPane.showMessageDialog(
                 this, "Device Info for: " + device
-                + "\nDevice Manufacturer: " + Scrcpy_GUI.adb_device_info(device),
+                + "\nDevice Manufacturer: " + GUI_functions.adb_device_info(device),
                 "Device Information",
                 JOptionPane.INFORMATION_MESSAGE
         );
@@ -443,7 +411,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
     private void showDeviceIP(String device) {
         JOptionPane.showMessageDialog(
                 this, "Device Info for: " + device
-                + "\nDevice IP Address: " + Scrcpy_GUI.adb_get_device_ip(device),
+                + "\nDevice IP Address: " + GUI_functions.adb_get_device_ip(device),
                 "Device Information",
                 JOptionPane.INFORMATION_MESSAGE
         );

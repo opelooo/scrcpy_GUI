@@ -5,6 +5,8 @@
 1. Download the latest version of [scrcpy](https://github.com/genymobile/scrcpy/) from the official GitHub repository.
 2. Add the path of the downloaded scrcpy to your system's environment variables.
    - On Windows, go to **System Properties** > **Advanced** > **Environment Variables**, then add the path to the `Path` variable.
+3. Download latest scrcpy GUI
+   - [.exe](https://github.com/opelooo/scrcpy_GUI/releases/download/v2.2.0/scrcpy-GUI-v2.2.0.exe) for windows | [.jar](https://github.com/opelooo/scrcpy_GUI/releases/download/v2.2.0/scrcpy-GUI-v2.2.0.jar) for others
 
 ---
 

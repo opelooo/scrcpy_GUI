@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+package com.opelooo.scrcpyGUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author opelooo
  */
-public class Scrcpy_GUI {
+public class GUI_functions {
 
     /**
      * Method to list devices connected to the computer, this method execute
