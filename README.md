@@ -12,7 +12,7 @@
 
 ## Tested On
 
-- **Operating System:** Windows 11 Pro 24H2 (OS Build 26100.2605)
+- Windows 11 Pro 24H2 (OS Build 26100.2605)
 
 ---
 
