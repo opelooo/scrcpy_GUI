@@ -50,31 +50,6 @@ public class Scrcpy_GUI {
     }
 
     /**
-     * Method to run scrcpy, this method execute
-     * {@code scrcpy -s device_code -m 1024 -b 2M} command using ProcessBuilder.
-     *
-     * @param device_code device ID from adb devices list
-     *
-     * @author opelooo
-     */
-    public static void run_scrcpy(String device_code) {
-        new Thread(() -> {
-            try {
-                // Create a process to execute 'scrcpy'
-                ProcessBuilder pb
-                        = new ProcessBuilder(
-                                "scrcpy", "-s", device_code, "-m 1024", "-b 2M"
-                        );
-
-                pb.start();
-                // Optionally, monitor the process if needed
-            } catch (IOException e) {
-                e.printStackTrace();  // Handle exceptions properly
-            }
-        }).start();  // Start the new thread
-    }
-
-    /**
      * Method to customize run scrcpy, this method execute
      * {@code scrcpy -s device_code -m 1024 -b 2M} command using ProcessBuilder.
      *
@@ -87,7 +62,7 @@ public class Scrcpy_GUI {
      *
      * @author opelooo
      */
-    public static void custom_run_scrcpy(
+    public static void run_scrcpy(
             String device_code, String maxSize, String bitRate,
             boolean videoOn, boolean screenOn, boolean stayAwake) {
         new Thread(() -> {

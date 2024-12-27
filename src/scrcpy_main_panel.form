@@ -82,7 +82,6 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="refreshButton" max="32767" attributes="0"/>
                               <Component id="selectButton" max="32767" attributes="0"/>
-                              <Component id="runDefaultButton" max="32767" attributes="0"/>
                               <Component id="runCustomButton" max="32767" attributes="0"/>
                               <Component id="tcpipButton" max="32767" attributes="0"/>
                           </Group>
@@ -98,15 +97,13 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="selectButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="runDefaultButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="runCustomButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="tcpipButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="199" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="338" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -154,17 +151,9 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="runDefaultButton">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Run"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runDefaultButtonButtonActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JButton" name="runCustomButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Custom"/>
+                    <Property name="text" type="java.lang.String" value="Run"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runCustomButtonButtonActionPerformed"/>

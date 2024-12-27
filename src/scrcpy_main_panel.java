@@ -52,7 +52,6 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
         list_devices = new javax.swing.JList<>();
         selectButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
-        runDefaultButton = new javax.swing.JButton();
         runCustomButton = new javax.swing.JButton();
         tcpipButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -95,14 +94,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
             }
         });
 
-        runDefaultButton.setText("Run");
-        runDefaultButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runDefaultButtonButtonActionPerformed(evt);
-            }
-        });
-
-        runCustomButton.setText("Custom");
+        runCustomButton.setText("Run");
         runCustomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runCustomButtonButtonActionPerformed(evt);
@@ -126,7 +118,6 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(refreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(selectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(runDefaultButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(runCustomButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tcpipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(9, Short.MAX_VALUE))
@@ -139,14 +130,12 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(selectButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(runDefaultButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runCustomButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tcpipButton)
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -287,16 +276,10 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
         updateDeviceList();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
-    private void runDefaultButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runDefaultButtonButtonActionPerformed
-        // TODO add your handling code here:
-        String selectedDevice = list_devices.getSelectedValue();
-        Scrcpy_GUI.run_scrcpy(selectedDevice);
-    }//GEN-LAST:event_runDefaultButtonButtonActionPerformed
-
     private void runCustomButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCustomButtonButtonActionPerformed
         // TODO add your handling code here:
         String selectedDevice = list_devices.getSelectedValue();
-        Scrcpy_GUI.custom_run_scrcpy(
+        Scrcpy_GUI.run_scrcpy(
                 selectedDevice, maxSize.getText(), videoBitRate.getText(),
                 toggleVideoButton.isSelected(), toggleScreenButton.isSelected(),
                 toggleStayAwake.isSelected()
@@ -372,7 +355,6 @@ public class scrcpy_main_panel extends javax.swing.JFrame {
     private javax.swing.JToggleButton recordVideoButton;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton runCustomButton;
-    private javax.swing.JButton runDefaultButton;
     private javax.swing.JButton selectButton;
     private javax.swing.JButton tcpipButton;
     private javax.swing.JToggleButton toggleScreenButton;
