@@ -1,6 +1,9 @@
+## Installation
+- Download latest [scrcpy](https://github.com/genymobile/scrcpy/) from (https://github.com/genymobile/scrcpy/)
+
 Make sure you add your scrcpy to environment variable
 
-GUI preview:
+## GUI preview:
 ![{AF11E1EF-477E-46F3-AE71-4C4E186FAE0C}](https://github.com/user-attachments/assets/30220860-0792-47ce-b38b-9fabd789b455)
 
 ![{955C04E0-8D26-40D1-90C2-DA8CF98C32B5}](https://github.com/user-attachments/assets/b5a173aa-588c-4e62-9104-1717f230656c)
