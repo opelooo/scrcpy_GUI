@@ -1,7 +1,9 @@
 ## Installation
 - Download latest [scrcpy](https://github.com/genymobile/scrcpy/) from (https://github.com/genymobile/scrcpy/)
+- Add your scrcpy to environment variable
 
-Make sure you add your scrcpy to environment variable
+## Tested on
+- Windows 11 pro 24H2 (0S Build 26100.2605)
 
 ## GUI preview:
 ![{AF11E1EF-477E-46F3-AE71-4C4E186FAE0C}](https://github.com/user-attachments/assets/30220860-0792-47ce-b38b-9fabd789b455)
