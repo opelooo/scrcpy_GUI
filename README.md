@@ -17,7 +17,7 @@
 ---
 
 ## GUI preview:
-![{AF11E1EF-477E-46F3-AE71-4C4E186FAE0C}](https://github.com/user-attachments/assets/30220860-0792-47ce-b38b-9fabd789b455)
+![{6691C121-92B6-44FD-A1A3-BBAB84C2081A}](https://github.com/user-attachments/assets/f05497ba-59b9-4b5e-a75c-9db45c4f270d)
 
 ![{955C04E0-8D26-40D1-90C2-DA8CF98C32B5}](https://github.com/user-attachments/assets/b5a173aa-588c-4e62-9104-1717f230656c)
 
