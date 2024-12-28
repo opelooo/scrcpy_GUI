@@ -7,6 +7,7 @@
     <Property name="iconImages" type="java.util.List" editor="org.netbeans.modules.form.ComponentChooserEditor">
       <ComponentRef name="null"/>
     </Property>
+    <Property name="name" type="java.lang.String" value="MainFrame" noResource="true"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>

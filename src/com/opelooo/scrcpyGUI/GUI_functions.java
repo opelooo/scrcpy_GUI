@@ -1,12 +1,14 @@
 package com.opelooo.scrcpyGUI;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//<editor-fold defaultstate="collapsed" desc=" imports ">
+import java.awt.Component;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
+import java.util.regex.*;
+import java.util.stream.Stream;
+import java.util.concurrent.TimeUnit;
+//</editor-fold>
 
 /**
  *
@@ -18,10 +20,11 @@ public class GUI_functions {
      * Method to list devices connected to the computer, this method execute
      * {@code adb devices} command using ProcessBuilder.
      *
+     * @param errorHandler
      * @return {@code List<String> output}
      * @author opelooo
      */
-    public static List<String> adb_devices() {
+    public static List<String> adb_devices(PopupHandler errorHandler) {
         List<String> output = new ArrayList<>();
         try {
             // Create a process to execute 'adb devices'
@@ -40,10 +43,9 @@ public class GUI_functions {
 
             // Wait for the process to complete
             process.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();  // Handle exceptions properly
+        } catch (IOException | InterruptedException | NullPointerException e) {
+            errorHandler.showError("Exception occurred: " + e.getMessage());
         }
-
         return output;
     }
 
@@ -51,6 +53,8 @@ public class GUI_functions {
      * Method to customize run scrcpy, this method execute
      * {@code scrcpy -s device_code -m 1024 -b 2M} command using ProcessBuilder.
      *
+     * @param ParentFrame
+     * @param errorHandler
      * @param device_code device ID from adb devices list
      * @param maxSize maximum size of mirroring panel
      * @param bitRate bit rate transfer for mirroring
@@ -60,36 +64,38 @@ public class GUI_functions {
      *
      * @author opelooo
      */
-    public static void run_scrcpy(
+    public static void run_scrcpy(Component ParentFrame, PopupHandler errorHandler,
             String device_code, String maxSize, String bitRate,
             boolean videoOn, boolean screenOn, boolean stayAwake) {
+        JDialog dialog = errorHandler.progressBarDialog();
         new Thread(() -> {
             try {
                 // creating list of process
-                List<String> list = new ArrayList<>();
-                list.add("scrcpy");
-                list.add("-s");
-                list.add(device_code);
-                list.add(String.format("-m %s", maxSize));
-                list.add(String.format("-b %s", bitRate));
+                List<String> list = new ArrayList<>(Arrays.asList(
+                        "scrcpy", "-s", device_code, String.format("-m %s", maxSize)
+                ));
 
-                if (!videoOn) {
-                    list.add("--no-video");
-                }
-                if (!screenOn) {
-                    list.add("--turn-screen-off");
-                }
-                if (stayAwake) {
-                    list.add("--stay-awake");
-                }
+                Stream.of(
+                        videoOn ? null : "--no-video",
+                        screenOn ? null : "--turn-screen-off",
+                        stayAwake ? "--stay-awake" : null,
+                        !bitRate.isEmpty() ? String.format("-b %s", bitRate) : null
+                ).filter(Objects::nonNull).forEach(list::add);
                 
                 // Create a process
                 ProcessBuilder pb = new ProcessBuilder(list);
-
                 pb.start();
-                // Optionally, monitor the process if needed
-            } catch (IOException e) {
-                e.printStackTrace();  // Handle exceptions properly
+
+                TimeUnit.MILLISECONDS.sleep(1500);
+                SwingUtilities.invokeLater(() -> {
+                    dialog.dispose();  // Close the dialog
+                });
+
+            } catch (IOException | NullPointerException | InterruptedException e) {
+                SwingUtilities.invokeLater(() -> {
+                    dialog.dispose();  // Close the dialog
+                    errorHandler.showError("Exception occurred: " + e.getMessage());
+                });
             }
         }).start();  // Start the new thread
     }
@@ -99,11 +105,12 @@ public class GUI_functions {
      * {@code adb -s device_code shell getprop ro.product.manufacturer} command
      * using ProcessBuilder.
      *
+     * @param errorHandler
      * @param device_code device ID from adb devices list
      * @return {@code String output}
      * @author opelooo
      */
-    public static String adb_device_info(String device_code) {
+    public static String adb_device_info(PopupHandler errorHandler, String device_code) {
         String output = new String();
         try {
             // Create a process
@@ -126,23 +133,23 @@ public class GUI_functions {
 
             // Wait for the process to complete
             process.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();  // Handle exceptions properly
+        } catch (IOException | InterruptedException | NullPointerException e) {
+            errorHandler.showError("Exception occurred: " + e.getMessage());
         }
-
         return output;
     }
-    
+
     /**
      * Method to get device info IP Address, this method execute
-     * {@code adb -s device_code shell ip route} command
-     * using ProcessBuilder. After that, the output filtered using regex.
+     * {@code adb -s device_code shell ip route} command using ProcessBuilder.
+     * After that, the output filtered using regex.
      *
+     * @param errorHandler
      * @param device_code device ID from adb devices list
      * @return {@code String device_ip_addr}
      * @author opelooo
      */
-    public static String adb_get_device_ip(String device_code) {
+    public static String adb_get_device_ip(PopupHandler errorHandler, String device_code) {
         String device_ip_addr = new String();
         try {
             // Create a process to execute 'adb devices'
@@ -157,7 +164,7 @@ public class GUI_functions {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
-            
+
             while ((line = reader.readLine()) != null) {
                 // Compile the pattern and create a matcher
                 Pattern pattern = Pattern.compile(regex);
@@ -171,15 +178,51 @@ public class GUI_functions {
 
             // Wait for the process to complete
             process.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();  // Handle exceptions properly
+        } catch (IOException | InterruptedException | NullPointerException e) {
+            errorHandler.showError("Exception occurred: " + e.getMessage());
         }
-
         return device_ip_addr;
     }
 
-    public static void adb_connect_tcpip(String device_code) {
-        
+    public static void adb_connect_tcpip(Component ParentFrame, PopupHandler errorHandler, String device_code) {
+        JDialog dialog = errorHandler.progressBarDialog();
+        String deviceIP = adb_get_device_ip(errorHandler, device_code);
+
+        new Thread(() -> {
+            try {
+                List<String> adbTcpIpMode = new ArrayList<>(Arrays.asList(
+                        "adb", "-s", device_code, "tcpip", "5555"
+                ));
+                List<String> adbConnectDevice = new ArrayList<>(Arrays.asList(
+                        "adb", "connect", String.format("%s:5555", deviceIP)
+                ));
+                List<String> scrcpyTcpIp = new ArrayList<>(Arrays.asList(
+                        "scrcpy", String.format("--tcpip=%s:5555", deviceIP)
+                ));
+
+                // Create a process
+                ProcessBuilder pbAdbTcpIpMode = new ProcessBuilder(adbTcpIpMode);
+                pbAdbTcpIpMode.start();
+
+                ProcessBuilder pbAdbConnectDevice = new ProcessBuilder(adbConnectDevice);
+                pbAdbConnectDevice.start();
+
+                ProcessBuilder pbScrcpyTcpIp = new ProcessBuilder(scrcpyTcpIp);
+                pbScrcpyTcpIp.start();
+
+                TimeUnit.MILLISECONDS.sleep(1500);
+                SwingUtilities.invokeLater(() -> {
+                    dialog.dispose();  // Close the dialog
+                });
+            } catch (IOException | InterruptedException | NullPointerException e) {
+                SwingUtilities.invokeLater(() -> {
+                    errorHandler.showError("Exception occurred: " + e.getMessage());
+                    dialog.dispose();  // Close the dialog
+                });
+            }
+
+        }).start();
     }
+
 
 }
