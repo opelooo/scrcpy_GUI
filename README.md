@@ -19,7 +19,9 @@
 ## GUI preview:
 ![{6691C121-92B6-44FD-A1A3-BBAB84C2081A}](https://github.com/user-attachments/assets/f05497ba-59b9-4b5e-a75c-9db45c4f270d)
 
-![{955C04E0-8D26-40D1-90C2-DA8CF98C32B5}](https://github.com/user-attachments/assets/b5a173aa-588c-4e62-9104-1717f230656c)
+![{3A705A5C-DB91-461D-B6C5-91B4C84CC8E2}](https://github.com/user-attachments/assets/9096d4ad-0755-4e8c-952b-2c8d38d7bdc3)
+
+![{12B20BD5-72FB-4712-AA8F-D510417603CA}](https://github.com/user-attachments/assets/f03e3c22-046c-40a2-8f07-b8838e8b8f05)
 
 ![{50516F8C-7181-491B-A408-CDD48AFC3B4F}](https://github.com/user-attachments/assets/c5c9f7ac-5120-4b8a-951c-d8d9890a836c)
 
