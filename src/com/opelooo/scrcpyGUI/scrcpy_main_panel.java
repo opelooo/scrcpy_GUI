@@ -271,7 +271,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
         // TODO add your handling code here:
         String selectedDevice = list_devices.getSelectedValue();
 
-        GUI_functions.run_scrcpy(this, this,
+        GUI_functions.run_scrcpy(this,
                 selectedDevice, maxSize.getText(), videoBitRate.getText(),
                 toggleVideoButton.isSelected(), toggleScreenButton.isSelected(),
                 toggleStayAwake.isSelected()
@@ -282,7 +282,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
     private void tcpipButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tcpipButtonButtonActionPerformed
         // TODO add your handling code here:
         String selectedDevice = list_devices.getSelectedValue();
-        GUI_functions.adb_connect_tcpip(this, this, selectedDevice);
+        GUI_functions.adb_connect_tcpip(this, selectedDevice);
     }//GEN-LAST:event_tcpipButtonButtonActionPerformed
 
     /**

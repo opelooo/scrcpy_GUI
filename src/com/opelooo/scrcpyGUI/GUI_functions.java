@@ -1,7 +1,6 @@
 package com.opelooo.scrcpyGUI;
 
 //<editor-fold defaultstate="collapsed" desc=" imports ">
-import java.awt.Component;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -53,7 +52,6 @@ public class GUI_functions {
      * Method to customize run scrcpy, this method execute
      * {@code scrcpy -s device_code -m 1024 -b 2M} command using ProcessBuilder.
      *
-     * @param ParentFrame
      * @param errorHandler
      * @param device_code device ID from adb devices list
      * @param maxSize maximum size of mirroring panel
@@ -64,7 +62,7 @@ public class GUI_functions {
      *
      * @author opelooo
      */
-    public static void run_scrcpy(Component ParentFrame, PopupHandler errorHandler,
+    public static void run_scrcpy(PopupHandler errorHandler,
             String device_code, String maxSize, String bitRate,
             boolean videoOn, boolean screenOn, boolean stayAwake) {
         JDialog dialog = errorHandler.progressBarDialog();
@@ -184,7 +182,7 @@ public class GUI_functions {
         return device_ip_addr;
     }
 
-    public static void adb_connect_tcpip(Component ParentFrame, PopupHandler errorHandler, String device_code) {
+    public static void adb_connect_tcpip(PopupHandler errorHandler, String device_code) {
         JDialog dialog = errorHandler.progressBarDialog();
         String deviceIP = adb_get_device_ip(errorHandler, device_code);
 
