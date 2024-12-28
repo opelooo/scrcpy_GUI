@@ -17,12 +17,8 @@
 ---
 
 ## GUI preview:
-![{6691C121-92B6-44FD-A1A3-BBAB84C2081A}](https://github.com/user-attachments/assets/f05497ba-59b9-4b5e-a75c-9db45c4f270d)
+![{23B93A62-CED2-4EC1-A033-408A77728152}](https://github.com/user-attachments/assets/73b095d0-8c23-4edc-bdca-b28469468b28)
 
-![{3A705A5C-DB91-461D-B6C5-91B4C84CC8E2}](https://github.com/user-attachments/assets/9096d4ad-0755-4e8c-952b-2c8d38d7bdc3)
+![{D16A17E9-810B-417D-9EF9-224E4705EF23}](https://github.com/user-attachments/assets/bff83451-fdb4-4be2-b2c4-cebc824dc06b)
 
-![{12B20BD5-72FB-4712-AA8F-D510417603CA}](https://github.com/user-attachments/assets/f03e3c22-046c-40a2-8f07-b8838e8b8f05)
-
-![{50516F8C-7181-491B-A408-CDD48AFC3B4F}](https://github.com/user-attachments/assets/c5c9f7ac-5120-4b8a-951c-d8d9890a836c)
-
-![{608F2FD2-A9E7-423D-A753-4B795F5C4B85}](https://github.com/user-attachments/assets/d588b029-55b8-4dbc-8b55-62403fdcdfd3)
+![{3802F2DD-7E24-4F3F-B8C3-E2D0688CB20A}](https://github.com/user-attachments/assets/7ab18c60-8e3a-45ba-b01c-fa031f89862d)
