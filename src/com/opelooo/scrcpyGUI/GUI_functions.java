@@ -177,7 +177,7 @@ public class GUI_functions {
             // Wait for the process to complete
             process.waitFor();
         } catch (IOException | InterruptedException | NullPointerException e) {
-            errorHandler.showError("Exception occurred: " + e.getMessage());
+            
         }
         return device_ip_addr;
     }
@@ -218,7 +218,6 @@ public class GUI_functions {
                     dialog.dispose();  // Close the dialog
                 });
             }
-
         }).start();
     }
 

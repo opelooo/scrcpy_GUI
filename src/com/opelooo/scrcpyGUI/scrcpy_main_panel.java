@@ -26,7 +26,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
     public scrcpy_main_panel() {
         initComponents();
         setIcon("/resources/icon.png");
-        
+
         listModel_JD = new DefaultListModel<>();  // Initialize the list model
         list_devices.setModel(listModel_JD);     // Set the list model to JList
 
@@ -339,7 +339,9 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
 
-    // Method to update the JList with the adb devices
+    /**
+     * Method to update the JList with the adb devices
+     */
     private void updateDeviceList() {
         // Clear the current list
         listModel_JD.clear();
@@ -352,7 +354,10 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
             listModel_JD.addElement(device);  // Add each device to the list model
         }
     }
-
+    
+    /**
+     * Method to show popup menu and right click menu
+     */
     private void poupMenuDeviceInfo() {
         // Create a JPopupMenu and add a menu item
         popupMenu = new JPopupMenu();
@@ -406,7 +411,10 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
         infoMenuItem.addActionListener(menuActionListener);
         ipInfo.addActionListener(menuActionListener);
     }
-
+    
+    /**
+     * Method to set icon for GUI .jar and the main frame
+     */
     private void setIcon(String iconURL) {
         try {
             URL resource = this.getClass().getResource(iconURL);
