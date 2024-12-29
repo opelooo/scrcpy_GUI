@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.util.regex.*;
 import java.util.stream.Stream;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //</editor-fold>
 
 /**
@@ -14,6 +17,93 @@ import java.util.concurrent.TimeUnit;
  * @author opelooo
  */
 public class GUI_functions {
+
+    private static String adb = "adb";
+    private static String scrcpy = "scrcpy";
+    
+    /**
+     * Method to check if there is adb and scrcpy in folder where .jar at.
+     * Execute FileInputStream and catch error if there is no adb/scrcpy exe file.
+     *
+     * @param errorHandler interface PopupHandler
+     * @return {@code List<String> output}
+     * @author opelooo
+     */
+    public static int checkAdb_Scrcpy_InFolder(PopupHandler errorHandler) {
+        // check adb and scrcpy in environment variable
+        if (checkAdb_Scrcpy_InEnvironment(errorHandler) == 1) {
+            return 1;
+        }
+
+        StringBuilder error = new StringBuilder();
+        // check adb exe in folder
+        try {
+            new FileInputStream("/adb.exe");
+        } catch (FileNotFoundException ex) {
+            error.append("\n").append(ex.getMessage());
+        }
+
+        // check scrcpy exe in folder
+        try {
+            new FileInputStream("/scrcpy.exe");
+        } catch (FileNotFoundException ex) {
+            error.append("\n").append(ex.getMessage());
+            errorHandler.showError("Program not found in folder, can not run program: " + error);
+            return -1;
+        }
+
+        GUI_functions.adb = "adb.exe";
+        GUI_functions.scrcpy = "scrcpy.exe";
+        return 1;
+    }
+
+    /**
+     * Method to check if there is adb and scrcpy in environment variable.
+     * Execute {@code adb} and {@code scrcpy} command using ProcessBuilder.
+     *
+     * @param errorHandler interface PopupHandler
+     * @return {@code List<String> output}
+     * @author opelooo
+     */
+    private static int checkAdb_Scrcpy_InEnvironment(PopupHandler errorHandler) {
+        StringBuilder error = new StringBuilder();
+        AtomicInteger status = new AtomicInteger(1);
+
+        // Create a new thread to check for adb and scrcpy
+        Thread checkThread = new Thread(() -> {
+            try {
+                ProcessBuilder pb = new ProcessBuilder(adb);
+                pb.start();
+            } catch (Exception e) {
+                status.set(-1);
+                error.append(e.getMessage());
+            }
+
+            try {
+                ProcessBuilder pb = new ProcessBuilder(scrcpy);
+                pb.start();
+            } catch (Exception e) {
+                status.set(-1);
+                error.append("\n").append(e.getMessage());
+            }
+        });
+        // Start the thread
+        checkThread.start();
+        // wait to finish
+        try {
+            checkThread.join();  // This will wait for the thread to finish
+        } catch (InterruptedException e) {
+            // Handle interruption
+            errorHandler.showError("Thread was interrupted.");
+            checkThread.interrupt();
+            return -1;
+        }
+        if (status.get() == -1) {
+            errorHandler.showError("Can not found adb and scrcpy in environment!\n" + error);
+            return -1;
+        }
+        return 1;
+    }
 
     /**
      * Method to list devices connected to the computer, this method execute
@@ -27,7 +117,7 @@ public class GUI_functions {
         List<String> output = new ArrayList<>();
         try {
             // Create a process to execute 'adb devices'
-            ProcessBuilder pb = new ProcessBuilder("adb", "devices");
+            ProcessBuilder pb = new ProcessBuilder(adb, "devices");
             Process process = pb.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -70,7 +160,7 @@ public class GUI_functions {
             try {
                 // creating list of process
                 List<String> list = new ArrayList<>(Arrays.asList(
-                        "scrcpy", "-s", device_code, String.format("-m %s", maxSize)
+                        scrcpy, "-s", device_code, String.format("-m %s", maxSize)
                 ));
 
                 Stream.of(
@@ -79,7 +169,7 @@ public class GUI_functions {
                         stayAwake ? "--stay-awake" : null,
                         !bitRate.isEmpty() ? String.format("-b %s", bitRate) : null
                 ).filter(Objects::nonNull).forEach(list::add);
-                
+
                 // Create a process
                 ProcessBuilder pb = new ProcessBuilder(list);
                 pb.start();
@@ -114,7 +204,7 @@ public class GUI_functions {
             // Create a process
             ProcessBuilder pb
                     = new ProcessBuilder(
-                            "adb", "-s", device_code, "shell",
+                            adb, "-s", device_code, "shell",
                             "getprop", "ro.product.manufacturer"
                     );
             Process process = pb.start();
@@ -153,7 +243,7 @@ public class GUI_functions {
             // Create a process to execute 'adb devices'
             ProcessBuilder pb
                     = new ProcessBuilder(
-                            "adb", "-s", device_code, "shell",
+                            adb, "-s", device_code, "shell",
                             "ip", "route"
                     );
             Process process = pb.start();
@@ -177,7 +267,7 @@ public class GUI_functions {
             // Wait for the process to complete
             process.waitFor();
         } catch (IOException | InterruptedException | NullPointerException e) {
-            
+
         }
         return device_ip_addr;
     }
@@ -189,13 +279,13 @@ public class GUI_functions {
         new Thread(() -> {
             try {
                 List<String> adbTcpIpMode = new ArrayList<>(Arrays.asList(
-                        "adb", "-s", device_code, "tcpip", "5555"
+                        adb, "-s", device_code, "tcpip", "5555"
                 ));
                 List<String> adbConnectDevice = new ArrayList<>(Arrays.asList(
-                        "adb", "connect", String.format("%s:5555", deviceIP)
+                        adb, "connect", String.format("%s:5555", deviceIP)
                 ));
                 List<String> scrcpyTcpIp = new ArrayList<>(Arrays.asList(
-                        "scrcpy", String.format("--tcpip=%s:5555", deviceIP)
+                        scrcpy, String.format("--tcpip=%s:5555", deviceIP)
                 ));
 
                 // Create a process
@@ -220,6 +310,5 @@ public class GUI_functions {
             }
         }).start();
     }
-
 
 }
