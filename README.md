@@ -3,7 +3,7 @@
 ## Installation
 
 1. Download the latest version of [scrcpy](https://github.com/genymobile/scrcpy/) from the official GitHub repository.
-2. Add the path of the downloaded scrcpy to your system's environment variables.
+2. Put the .exe/.jar in scrcpy folder or Add the path of the downloaded scrcpy to your system's environment variables.
    - On Windows, go to **System Properties** > **Advanced** > **Environment Variables**, then add the path to the `Path` variable.
 3. Download latest scrcpy GUI
    - .exe for windows | .jar for others
