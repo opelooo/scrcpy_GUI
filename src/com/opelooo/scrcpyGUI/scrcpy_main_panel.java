@@ -18,6 +18,7 @@ import javax.swing.*;
 public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandler {
 
     private final DefaultListModel<String> listModel_JD;  // Declare the list model
+    private final int ADB_SCRCPY_STATUS = GUI_functions.checkAdb_Scrcpy_InFolder(this);
     private JPopupMenu popupMenu;  // The popup menu
 
     /**
@@ -29,11 +30,13 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
 
         listModel_JD = new DefaultListModel<>();  // Initialize the list model
         list_devices.setModel(listModel_JD);     // Set the list model to JList
-        if (GUI_functions.checkAdb_Scrcpy_InFolder(this) == 1) {
-            updateDeviceList();
-        }
+
         poupMenuDeviceInfo();
 
+        if (ADB_SCRCPY_STATUS != 1) {
+            return;
+        }
+        updateDeviceList();
     }
 
     /**
@@ -305,8 +308,9 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
         // TODO add your handling code here:
         String selectedDevice = list_devices.getSelectedValue();
-        showDeviceInfo("Device Info for: " + selectedDevice
-                + "\nDevice Manufacturer: " + GUI_functions.adb_device_info(this, selectedDevice));
+        showInfo("Device Info for: " + selectedDevice
+                + "\nDevice Manufacturer: "
+                + GUI_functions.adb_device_info(this, selectedDevice), "Device Info");
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void bitRateSliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bitRateSliderMouseDragged
@@ -331,7 +335,12 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            javax.swing.JFrame mainFrame = new scrcpy_main_panel();
+            scrcpy_main_panel mainFrame = new scrcpy_main_panel();
+            // Check the adb status using the instance method
+            if (getAdbStatus(mainFrame) != 1) {
+                mainFrame.dispose();
+                return;
+            }
             // Calculate the frame location
             int x1 = (screenSize.width - mainFrame.getWidth()) / 2;
             int y1 = (screenSize.height - mainFrame.getHeight()) / 2;
@@ -339,6 +348,11 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
             mainFrame.setLocation(x1, y1);
             mainFrame.setVisible(true);
         });
+    }
+
+    // Access the instance variable using the passed scrcpyPanel
+    public static int getAdbStatus(scrcpy_main_panel scrcpyPanel) {
+        return scrcpyPanel.ADB_SCRCPY_STATUS;
     }
 
     //<editor-fold defaultstate="collapsed" desc=" Variables declaration - do not modify ">
@@ -429,11 +443,13 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
                 return;
             }
             if (e.getSource() == infoMenuItem) {
-                showDeviceInfo("Device Info for: " + selectedDevice
-                        + "\nDevice Manufacturer: " + GUI_functions.adb_device_info(this, selectedDevice));
+                showInfo("Device Info for: " + selectedDevice
+                        + "\nDevice Manufacturer: "
+                        + GUI_functions.adb_device_info(this, selectedDevice), "Device Info");
             } else if (e.getSource() == ipInfo) {
-                showDeviceInfo("Device Info for: " + selectedDevice
-                        + "\nDevice IP Address: " + GUI_functions.adb_get_device_ip(this, selectedDevice));
+                showInfo("Device Info for: " + selectedDevice
+                        + "\nDevice IP Address: "
+                        + GUI_functions.adb_get_device_ip(this, selectedDevice), "Device Info");
             }
         };
 
@@ -454,14 +470,6 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
         } catch (IOException ex) {
             showError(ex.getMessage());
         }
-    }
-
-    @Override
-    public void showDeviceInfo(String message) {
-        if (message.contains("null")) {
-            return;
-        }
-        JOptionPane.showMessageDialog(this, message, "Device Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -491,7 +499,10 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
     }
 
     @Override
-    public void showInfo(String infoMessage) {
-        JOptionPane.showMessageDialog(this, infoMessage, "Info", JOptionPane.INFORMATION_MESSAGE);
+    public void showInfo(String infoMessage, String title) {
+        if (infoMessage.contains("null")) {
+            return;
+        }
+        JOptionPane.showMessageDialog(this, infoMessage, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }

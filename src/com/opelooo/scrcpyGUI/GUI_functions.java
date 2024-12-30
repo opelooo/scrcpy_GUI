@@ -2,6 +2,7 @@ package com.opelooo.scrcpyGUI;
 
 //<editor-fold defaultstate="collapsed" desc=" imports ">
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.*;
 import javax.swing.*;
 import java.util.regex.*;
@@ -20,10 +21,11 @@ public class GUI_functions {
 
     private static String adb = "adb";
     private static String scrcpy = "scrcpy";
-    
+
     /**
      * Method to check if there is adb and scrcpy in folder where .jar at.
-     * Execute FileInputStream and catch error if there is no adb/scrcpy exe file.
+     * Execute FileInputStream and catch error if there is no adb/scrcpy exe
+     * file.
      *
      * @param errorHandler interface PopupHandler
      * @return {@code List<String> output}
@@ -35,20 +37,20 @@ public class GUI_functions {
             return 1;
         }
 
+        // Check for adb and scrcpy executables in the folder
+        String[] programs = {"adb.exe", "scrcpy.exe"};
         StringBuilder error = new StringBuilder();
-        // check adb exe in folder
-        try {
-            new FileInputStream("/adb.exe");
-        } catch (FileNotFoundException ex) {
-            error.append("\n").append(ex.getMessage());
+
+        for (String program : programs) {
+            File programFile = Paths.get(program).toFile();
+            if (!programFile.exists()) {
+                error.append("\n").append(program).append(" not found in folder.");
+            }
         }
 
-        // check scrcpy exe in folder
-        try {
-            new FileInputStream("/scrcpy.exe");
-        } catch (FileNotFoundException ex) {
-            error.append("\n").append(ex.getMessage());
-            errorHandler.showError("Program not found in folder, can not run program: " + error);
+        // If error occurred, show the error and return -1
+        if (error.length() > 0) {
+            errorHandler.showError("Programs not found in folder, cannot run program: " + error);
             return -1;
         }
 
@@ -59,7 +61,6 @@ public class GUI_functions {
 
     /**
      * Method to check if there is adb and scrcpy in environment variable.
-     * Execute {@code adb} and {@code scrcpy} command using ProcessBuilder.
      *
      * @param errorHandler interface PopupHandler
      * @return {@code List<String> output}
@@ -67,42 +68,40 @@ public class GUI_functions {
      */
     private static int checkAdb_Scrcpy_InEnvironment(PopupHandler errorHandler) {
         StringBuilder error = new StringBuilder();
-        AtomicInteger status = new AtomicInteger(1);
 
-        // Create a new thread to check for adb and scrcpy
-        Thread checkThread = new Thread(() -> {
-            try {
-                ProcessBuilder pb = new ProcessBuilder(adb);
-                pb.start();
-            } catch (Exception e) {
-                status.set(-1);
-                error.append(e.getMessage());
-            }
-
-            try {
-                ProcessBuilder pb = new ProcessBuilder(scrcpy);
-                pb.start();
-            } catch (Exception e) {
-                status.set(-1);
-                error.append("\n").append(e.getMessage());
-            }
-        });
-        // Start the thread
-        checkThread.start();
-        // wait to finish
-        try {
-            checkThread.join();  // This will wait for the thread to finish
-        } catch (InterruptedException e) {
-            // Handle interruption
-            errorHandler.showError("Thread was interrupted.");
-            checkThread.interrupt();
+        // Check adb and scrcpy in the environment
+        if (!checkProgramInEnvironment(adb, error) || !checkProgramInEnvironment(scrcpy, error)) {
+            errorHandler.showError("Cannot find adb or scrcpy in environment!\n" + error);
             return -1;
         }
-        if (status.get() == -1) {
-            errorHandler.showError("Can not found adb and scrcpy in environment!\n" + error);
-            return -1;
-        }
+
         return 1;
+    }
+
+    /**
+     * Helper method to check if a program is available in the environment.
+     * Execute {@code adb --version} and {@code scrcpy --version} command using ProcessBuilder.
+     *
+     * @param errorHandler interface PopupHandler
+     * @return {@code List<String> output}
+     * @author opelooo
+     */ 
+    private static boolean checkProgramInEnvironment(String program, StringBuilder error) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(program, "--version"); // Run the version command to check
+            Process process = pb.start();
+            int exitCode = process.waitFor(); // Wait for the process to finish and get the exit code
+
+            if (exitCode != 0) {
+                error.append(program).append(" returned non-zero exit code: ").append(exitCode).append("\n");
+                return false;
+            }
+
+        } catch (IOException | InterruptedException e) {
+            error.append("Error checking ").append(program).append(": ").append(e.getMessage()).append("\n");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -202,8 +201,7 @@ public class GUI_functions {
         String output = new String();
         try {
             // Create a process
-            ProcessBuilder pb
-                    = new ProcessBuilder(
+            ProcessBuilder pb = new ProcessBuilder(
                             adb, "-s", device_code, "shell",
                             "getprop", "ro.product.manufacturer"
                     );
@@ -241,8 +239,7 @@ public class GUI_functions {
         String device_ip_addr = new String();
         try {
             // Create a process to execute 'adb devices'
-            ProcessBuilder pb
-                    = new ProcessBuilder(
+            ProcessBuilder pb = new ProcessBuilder(
                             adb, "-s", device_code, "shell",
                             "ip", "route"
                     );
@@ -267,7 +264,7 @@ public class GUI_functions {
             // Wait for the process to complete
             process.waitFor();
         } catch (IOException | InterruptedException | NullPointerException e) {
-
+            errorHandler.showError("Exception occurred: " + e.getMessage());
         }
         return device_ip_addr;
     }

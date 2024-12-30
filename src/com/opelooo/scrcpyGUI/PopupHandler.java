@@ -19,15 +19,9 @@ public interface PopupHandler {
      * Method to show popup message containing error happening
      *
      * @param infoMessage String containing information message
+     * @param typeOfInfo contain title showing type of information
      */
-    void showInfo(String infoMessage);
-    
-    /**
-     * Method to show popup message containing device info
-     *
-     * @param message String containing device info message
-     */
-    void showDeviceInfo(String message);
+    void showInfo(String infoMessage, String typeOfInfo);
     
     /**
      * Method to create new JDialog for progress bar
