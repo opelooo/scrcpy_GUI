@@ -41,11 +41,8 @@ public class GUI_functions {
         String[] programs = {"adb.exe", "scrcpy.exe"};
         StringBuilder error = new StringBuilder();
 
-        for (String program : programs) {
-            File programFile = Paths.get(program).toFile();
-            if (!programFile.exists()) {
-                error.append("\n").append(program).append(" not found in folder.");
-            }
+        for (var program : programs) {
+            checkProgramInFolder(program, error);
         }
 
         // If error occurred, show the error and return -1
@@ -60,6 +57,25 @@ public class GUI_functions {
     }
 
     /**
+     * Helper method to check if a program is available in the environment.
+     * Execute {@code adb --version} and {@code scrcpy --version} command using
+     * ProcessBuilder.
+     *
+     * @param program program command
+     * @param error error message
+     * @return boolean
+     * @author opelooo
+     */
+    private static boolean checkProgramInFolder(String program, StringBuilder error) {
+        File programFile = Paths.get(program).toFile();
+        if (!programFile.exists()) {
+            error.append("\n").append(program).append(" not found in folder.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Method to check if there is adb and scrcpy in environment variable.
      *
      * @param errorHandler interface PopupHandler
@@ -69,8 +85,9 @@ public class GUI_functions {
     private static int checkAdb_Scrcpy_InEnvironment(PopupHandler errorHandler) {
         StringBuilder error = new StringBuilder();
 
+        boolean[] results = {checkProgramInEnvironment(adb, error), checkProgramInEnvironment(scrcpy, error)};
         // Check adb and scrcpy in the environment
-        if (!checkProgramInEnvironment(adb, error) || !checkProgramInEnvironment(scrcpy, error)) {
+        if (!results[0] || !results[1]) {
             errorHandler.showError("Cannot find adb or scrcpy in environment!\n" + error);
             return -1;
         }
@@ -80,12 +97,14 @@ public class GUI_functions {
 
     /**
      * Helper method to check if a program is available in the environment.
-     * Execute {@code adb --version} and {@code scrcpy --version} command using ProcessBuilder.
+     * Execute {@code adb --version} and {@code scrcpy --version} command using
+     * ProcessBuilder.
      *
-     * @param errorHandler interface PopupHandler
-     * @return {@code List<String> output}
+     * @param program program command
+     * @param error error message
+     * @return boolean
      * @author opelooo
-     */ 
+     */
     private static boolean checkProgramInEnvironment(String program, StringBuilder error) {
         try {
             ProcessBuilder pb = new ProcessBuilder(program, "--version"); // Run the version command to check
@@ -202,9 +221,9 @@ public class GUI_functions {
         try {
             // Create a process
             ProcessBuilder pb = new ProcessBuilder(
-                            adb, "-s", device_code, "shell",
-                            "getprop", "ro.product.manufacturer"
-                    );
+                    adb, "-s", device_code, "shell",
+                    "getprop", "ro.product.manufacturer"
+            );
             Process process = pb.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -240,9 +259,9 @@ public class GUI_functions {
         try {
             // Create a process to execute 'adb devices'
             ProcessBuilder pb = new ProcessBuilder(
-                            adb, "-s", device_code, "shell",
-                            "ip", "route"
-                    );
+                    adb, "-s", device_code, "shell",
+                    "ip", "route"
+            );
             Process process = pb.start();
 
             String regex = "src (\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b)";
