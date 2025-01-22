@@ -104,36 +104,33 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="recordAudioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="audioFormats" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="recordVideoButton" min="-2" pref="121" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="videoFormats" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" pref="100" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="videoBitRate" min="-2" pref="90" max="-2" attributes="0"/>
                                   <Component id="bitRateSlider" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="toggleVideoButton" alignment="0" max="32767" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="currDeviceCode" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="toggleScreenButton" alignment="0" pref="202" max="32767" attributes="0"/>
-                                  <Component id="toggleStayAwake" alignment="0" max="32767" attributes="0"/>
+                          <Component id="currDeviceCode" min="-2" max="-2" attributes="0"/>
+                          <Component id="toggleStayAwake" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="maxSize" min="-2" pref="90" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="recordAudioButton" max="32767" attributes="0"/>
+                                  <Component id="recordVideoButton" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="maxSize" min="-2" pref="90" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="audioFormats" max="32767" attributes="0"/>
+                                  <Component id="videoFormats" max="32767" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="toggleScreenButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="10" max="32767" attributes="0"/>
                   </Group>
@@ -295,7 +292,7 @@
                           <Component id="refreshButton" max="32767" attributes="0"/>
                           <Component id="selectButton" max="32767" attributes="0"/>
                           <Component id="runCustomButton" max="32767" attributes="0"/>
-                          <Component id="tcpipButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="tcpipButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
