@@ -8,11 +8,15 @@
 3. Download latest scrcpy GUI
    - .exe for windows | .jar for others
 
+### linux
+- run: java -jar <name-of-app.jar>
+
 ---
 
 ## Tested On
 
 - Windows 11 Pro 24H2 (OS Build 26100.2605)
+- Kubuntu 24.04 LTS; Kernel 6.8.0-51-generic (64-bit); X11 and Wayland
 
 ---
 
