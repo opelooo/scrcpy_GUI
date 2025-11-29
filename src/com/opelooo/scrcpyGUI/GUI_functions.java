@@ -29,31 +29,28 @@ public class GUI_functions {
      *
      * @param errorHandler interface PopupHandler
      * @return {@code List<String> output}
-     * @author opelooo
      */
-    public static int checkAdb_Scrcpy_InFolder(PopupHandler errorHandler) {
+    public static boolean checkAdb_Scrcpy(PopupHandler errorHandler) {
         // check adb and scrcpy in environment variable
-        if (checkAdb_Scrcpy_InEnvironment(errorHandler) == 1) {
-            return 1;
+        if (!checkAdb_Scrcpy_InEnvironment(errorHandler)) {
+            // Check for adb and scrcpy executables in the folder
+            String[] programs = {"adb.exe", "scrcpy.exe"};
+            StringBuilder error = new StringBuilder();
+
+            for (var program : programs) {
+                checkProgramInFolder(program, error);
+            }
+
+            // If error occurred, show the error and return -1
+            if (error.length() > 0) {
+                errorHandler.showError("Programs not found in folder, cannot run program: " + error);
+                return false;
+            }
+
+            GUI_functions.adb = "adb.exe";
+            GUI_functions.scrcpy = "scrcpy.exe";
         }
-
-        // Check for adb and scrcpy executables in the folder
-        String[] programs = {"adb.exe", "scrcpy.exe"};
-        StringBuilder error = new StringBuilder();
-
-        for (var program : programs) {
-            checkProgramInFolder(program, error);
-        }
-
-        // If error occurred, show the error and return -1
-        if (error.length() > 0) {
-            errorHandler.showError("Programs not found in folder, cannot run program: " + error);
-            return -1;
-        }
-
-        GUI_functions.adb = "adb.exe";
-        GUI_functions.scrcpy = "scrcpy.exe";
-        return 1;
+        return true;
     }
 
     /**
@@ -64,7 +61,6 @@ public class GUI_functions {
      * @param program program command
      * @param error error message
      * @return boolean
-     * @author opelooo
      */
     private static boolean checkProgramInFolder(String program, StringBuilder error) {
         File programFile = Paths.get(program).toFile();
@@ -80,19 +76,18 @@ public class GUI_functions {
      *
      * @param errorHandler interface PopupHandler
      * @return {@code List<String> output}
-     * @author opelooo
      */
-    private static int checkAdb_Scrcpy_InEnvironment(PopupHandler errorHandler) {
+    private static boolean checkAdb_Scrcpy_InEnvironment(PopupHandler errorHandler) {
         StringBuilder error = new StringBuilder();
 
         boolean[] results = {checkProgramInEnvironment(adb, error), checkProgramInEnvironment(scrcpy, error)};
         // Check adb and scrcpy in the environment
         if (!results[0] || !results[1]) {
             errorHandler.showError("Cannot find adb or scrcpy in environment!\n" + error);
-            return -1;
+            return false;
         }
 
-        return 1;
+        return true;
     }
 
     /**
@@ -103,7 +98,6 @@ public class GUI_functions {
      * @param program program command
      * @param error error message
      * @return boolean
-     * @author opelooo
      */
     private static boolean checkProgramInEnvironment(String program, StringBuilder error) {
         try {
@@ -129,7 +123,6 @@ public class GUI_functions {
      *
      * @param errorHandler
      * @return {@code List<String> output}
-     * @author opelooo
      */
     public static List<String> adb_devices(PopupHandler errorHandler) {
         List<String> output = new ArrayList<>();
@@ -167,8 +160,6 @@ public class GUI_functions {
      * @param videoOn toggle mirror the video
      * @param screenOn toggle phone screen on or off
      * @param stayAwake toggle option to stay awake mode
-     *
-     * @author opelooo
      */
     public static void run_scrcpy(PopupHandler errorHandler,
             String device_code, String maxSize, String bitRate,
@@ -214,7 +205,6 @@ public class GUI_functions {
      * @param errorHandler
      * @param device_code device ID from adb devices list
      * @return {@code String output}
-     * @author opelooo
      */
     public static String adb_device_info(PopupHandler errorHandler, String device_code) {
         String output = new String();
@@ -252,7 +242,6 @@ public class GUI_functions {
      * @param errorHandler
      * @param device_code device ID from adb devices list
      * @return {@code String device_ip_addr}
-     * @author opelooo
      */
     public static String adb_get_device_ip(PopupHandler errorHandler, String device_code) {
         String device_ip_addr = new String();

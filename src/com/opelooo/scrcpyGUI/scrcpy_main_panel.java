@@ -18,15 +18,8 @@ import javax.swing.*;
 public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandler {
 
     private final DefaultListModel<String> listModel_JD;  // Declare the list model
-    private final int ADB_SCRCPY_STATUS = GUI_functions.checkAdb_Scrcpy_InFolder(this);
+    private final boolean ADB_SCRCPY_STATUS = GUI_functions.checkAdb_Scrcpy(this);
     private JPopupMenu popupMenu;  // The popup menu
-    private final String curr_os  = getOperatingSystem();
-
-    public String getOperatingSystem() {
-        String os = System.getProperty("os.name");
-        // System.out.println("Using System Property: " + os);
-        return os;
-    }
 
     /**
      * Creates new form scrcpy_main_panel
@@ -40,7 +33,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
 
         poupMenuDeviceInfo();
 
-        if (ADB_SCRCPY_STATUS != 1) {
+        if (!ADB_SCRCPY_STATUS) {
             return;
         }
         updateDeviceList();
@@ -342,7 +335,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
         java.awt.EventQueue.invokeLater(() -> {
             scrcpy_main_panel mainFrame = new scrcpy_main_panel();
             // Check the adb status using the instance method
-            if (getAdbStatus(mainFrame) != 1) {
+            if (!getAdbStatus(mainFrame)) {
                 mainFrame.dispose();
                 return;
             }
@@ -356,7 +349,7 @@ public class scrcpy_main_panel extends javax.swing.JFrame implements PopupHandle
     }
 
     // Access the instance variable using the passed scrcpyPanel
-    public static int getAdbStatus(scrcpy_main_panel scrcpyPanel) {
+    public static boolean getAdbStatus(scrcpy_main_panel scrcpyPanel) {
         return scrcpyPanel.ADB_SCRCPY_STATUS;
     }
 
